@@ -1,4 +1,3 @@
-package cc.cmu.edu.minisite;
 
 import io.undertow.Undertow;
 import io.undertow.server.HttpHandler;
@@ -12,10 +11,9 @@ import static io.undertow.servlet.Servlets.defaultContainer;
 import static io.undertow.servlet.Servlets.deployment;
 import static io.undertow.servlet.Servlets.servlet;
 import io.undertow.Handlers;
-
-/*
-	You don't have to modify this file to finish task 1~4.
-*/
+/**
+ * Created by liuyuan on 4/7/16.
+ */
 public class MiniSite {
 	public MiniSite() throws Exception{
 

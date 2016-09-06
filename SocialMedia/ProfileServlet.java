@@ -1,4 +1,3 @@
-package cc.cmu.edu.minisite;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
-
+/**
+ * Created by liuyuan on 4/7/16.
+ */
 public class ProfileServlet extends HttpServlet {
 
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -47,13 +48,8 @@ public class ProfileServlet extends HttpServlet {
         String pwd = request.getParameter("pwd");
 
         /*
-            Task 1:
-            This query simulates the login process of a user, 
-            and tests whether your backend system is functioning properly. 
-            Your web application will receive a pair of UserID and Password, 
-            and you need to check in your backend database to see if the 
-	    UserID and Password is a valid pair. 
-            You should construct your response accordingly:
+            Web application will receive a pair of UserID and Password, 
+            and the backend checks to see if the UserID and Password is a valid pair. 
 
             If YES, send back the user's Name and Profile Image URL.
             If NOT, set Name as "Unauthorized" and Profile Image URL as "#".
@@ -61,11 +57,10 @@ public class ProfileServlet extends HttpServlet {
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
-//            String sql = "SELECT * FROM twitter WHERE `user_id` = '" + id + "' AND BINARY `hashtags` = '" + hashtag + "'";
             String sql = "SELECT name, url FROM user WHERE BINARY `id` = '" + id + "' AND BINARY `password` = '" + pwd + "'";
-//            String sql = "SELECT artist_id, artist_name, COUNT(*) FROM songs GROUP BY artist_id ORDER BY COUNT(*) DESC LIMIT 2, 1";
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
+                // If there is a match, put acquired information in a Json object
                 String name = rs.getString("name");
                 String uRL = rs.getString("url");
                 result.put("name", name);
@@ -74,6 +69,7 @@ public class ProfileServlet extends HttpServlet {
                 writer.write(String.format("returnRes(%s)", result.toString()));
                 writer.close();
             } else {
+                // If input doesn't match with database, put relative information in a Json object
                 result.put("name", "Unauthorized");
                 result.put("profile", "#");
                 PrintWriter writer = response.getWriter();
